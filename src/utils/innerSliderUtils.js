@@ -722,6 +722,8 @@ export const getTrackLeft = spec => {
   if (variableWidth === true) {
     var targetSlideIndex;
     let trackElem = ReactDOM.findDOMNode(trackRef);
+    let lastSlide = trackElem && trackElem.childNodes[slideCount - 1];
+    let max = -lastSlide.offsetLeft + listWidth - lastSlide.offsetWidth;
     targetSlideIndex = slideIndex + getPreClones(spec);
     targetSlide = trackElem && trackElem.childNodes[targetSlideIndex];
     targetLeft = targetSlide ? targetSlide.offsetLeft * -1 : 0;
@@ -740,6 +742,7 @@ export const getTrackLeft = spec => {
       targetLeft -= parseInt(spec.centerPadding);
       targetLeft += targetSlide && (listWidth - targetSlide.offsetWidth) / 2;
     }
+    if (!infinite && targetLeft < max) targetLeft = max;
   }
 
   return targetLeft;
